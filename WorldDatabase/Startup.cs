@@ -43,6 +43,6 @@ namespace WorldDatabase
   }
   public static class DBConfiguration
  {
-   public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=world;";
+   public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=world;default command timeout=50;";
  }
 }

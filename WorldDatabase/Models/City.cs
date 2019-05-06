@@ -48,5 +48,30 @@ namespace WorldDatabase.Models
       return allCities;
     }
 
+    public static string FindCityName(int id)
+    {
+      string varName = "none";
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand getCapital = conn.CreateCommand() as MySqlCommand;
+      getCapital.CommandText = @"SELECT name FROM city WHERE id='" + id +"';";
+      MySqlDataReader rdr = getCapital.ExecuteReader() as MySqlDataReader;
+
+      while(rdr.Read())
+      {
+        varName = rdr.GetString(0);
+      }
+
+      conn.Close();
+
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+
+      return varName;
+
+    }
+
   }
 }
