@@ -1,0 +1,32 @@
+@using WorldDatabase.Models;
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>World stuff</title>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="~/css/styles.css">
+  </head>
+  <body class="container">
+    <h1>Never have to count words in a sentence again!</h1>
+    @if (Model.Count == 0)
+        {
+          <p>You have not inputted any words :( !</p>
+        }
+    @if(Model.Count != 0)
+        {
+        @foreach (City city in Model)
+        {
+          <div class="wordBox">
+            <a href='/city/@city.Id' class="answer">@city.CityName is a city in @city.CountryCode with a population of @city.Population!</a>
+
+            <a href='/counter/@city.Id/delete' class="smaller-text">Ok, now delete this one</a>
+          </div>
+        }
+        }
+
+
+    <a href="/counter/new" class="new-form">Get the count for a new phrase!</a>
+  </body>
+</html>
