@@ -23,28 +23,28 @@ namespace WorldDatabase.Models
     public static List<City> GetAll()
     {
       List<City> allCities = new List<City> {};
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM city;";
-      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-      while(rdr.Read())
-      {
-        int id = rdr.GetInt32(0);
-        string cityName = rdr.GetString(1);
-        string countryCode = rdr.GetString(2);
-        int population = rdr.GetInt32(4);
-
-        City newCity = new City(cityName, countryCode, population, id);
-        allCities.Add(newCity);
-      }
-      conn.Close();
-
-      if (conn != null)
-      {
-        conn.Dispose();
-      }
+      // MySqlConnection conn = DB.Connection();
+      // conn.Open();
+      // MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"SELECT * FROM city;";
+      // MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      //
+      // while(rdr.Read())
+      // {
+      //   int id = rdr.GetInt32(0);
+      //   string cityName = rdr.GetString(1);
+      //   string countryCode = rdr.GetString(2);
+      //   int population = rdr.GetInt32(4);
+      //
+      //   City newCity = new City(cityName, countryCode, population, id);
+      //   allCities.Add(newCity);
+      // }
+      // conn.Close();
+      //
+      // if (conn != null)
+      // {
+      //   conn.Dispose();
+      // }
       return allCities;
     }
 
@@ -61,17 +61,25 @@ namespace WorldDatabase.Models
       {
         varName = rdr.GetString(0);
       }
-
       conn.Close();
-
       if (conn != null)
       {
         conn.Dispose();
       }
-
       return varName;
-
     }
 
+      public static void ClearAll()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM city";
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }
