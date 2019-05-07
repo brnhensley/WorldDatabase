@@ -93,8 +93,10 @@ namespace WorldDatabase.Models
       {
         City newCity = (City) otherCity;
         bool idEquality = (this.Id == newCity.Id);
-        bool nameEqaulity = (this.Name == newCity.Name);
-        return (nameEqaulity);
+        bool nameEquality = (this.Name == newCity.Name);
+        bool countryCodeEquality = (this.CountryCode == newCity.CountryCode);
+        bool populationEquality = (this.Population == newCity.Population);
+        return (idEquality && nameEquality && countryCodeEquality && populationEquality);
       }
     }
 
