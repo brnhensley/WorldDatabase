@@ -10,14 +10,14 @@ namespace WorldDatabase.Models
     public string Name {get; set;}
     public string CountryCode {get; set;}
     public int Population {get; set;}
-    // public int Id {get; set;}
+    public int Id {get; set;}
 
-    public City (string name, string countryCode, int population)
+    public City (string name, string countryCode, int population, int id = 0)
     {
       Name = name;
       CountryCode = countryCode;
       Population = population;
-      // Id = id;
+      Id = id;
     }
 
     public static List<City> GetAll()
@@ -36,7 +36,7 @@ namespace WorldDatabase.Models
         string countryCode = rdr.GetString(2);
         int population = rdr.GetInt32(4);
 
-        City newCity = new City(name, countryCode, population);
+        City newCity = new City(name, countryCode, population, id);
         allCities.Add(newCity);
       }
       conn.Close();
@@ -92,6 +92,7 @@ namespace WorldDatabase.Models
       else
       {
         City newCity = (City) otherCity;
+        bool idEquality = (this.Id == newCity.Id);
         bool nameEqaulity = (this.Name == newCity.Name);
         return (nameEqaulity);
       }
@@ -120,6 +121,7 @@ namespace WorldDatabase.Models
      cmd.Parameters.Add(countryCode);
      cmd.Parameters.Add(population);
      cmd.ExecuteNonQuery();
+     Id = (int) cmd.LastInsertedId;
      // more logic will go here in a moment
 
       conn.Close();

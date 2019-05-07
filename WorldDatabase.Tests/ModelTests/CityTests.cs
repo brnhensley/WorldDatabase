@@ -74,6 +74,24 @@ namespace WorldDatabase.Tests
       //Assert
       CollectionAssert.AreEqual(testList, result);
     }
+
+    [TestMethod]
+    public void Save_AssignsIdToObject_Id()
+    {
+      //Arrange
+      City testCity = new City("Anaheim", "USA", 45);
+
+      //Act
+      testCity.Save();
+      City savedCity = City.GetAll()[0];
+
+      int result = savedCity.Id;
+      int testId = testCity.Id;
+
+      //Assert
+      Assert.AreEqual(testId, result);
+    }
+
     // [TestMethod]
     // public void ItemConstructor_CreatesInstanceOfItem_Item()
     // {
