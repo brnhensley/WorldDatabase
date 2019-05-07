@@ -19,6 +19,61 @@ namespace WorldDatabase.Tests
       DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=world_test;";
     }
 
+    [TestMethod]
+    public void GetAll_ReturnsEmptyList_CityList()
+    {
+      //Arrange
+      List<City> newList = new List<City> { };
+
+      //Act
+      List<City> result = City.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(newList, result);
+    }
+
+    [TestMethod]
+    public void GetAll_ReturnsCitys_CityList()
+    {
+      //Arrange
+      City newCity1 = new City("portland", "USA", 60);
+      newCity1.Save();
+      City newCity2 = new City("seattle", "USA", 602);
+      newCity2.Save();
+      List<City> expectedResult = new List<City> { newCity1, newCity2 };
+
+      //Act
+      List<City> actualResult = City.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(expectedResult, actualResult);
+    }
+
+    [TestMethod]
+    public void Equals_ReturnsTrueIfNameAreTheSame_City()
+    {
+      // Arrange, Act
+      City firstCity = new City("Ohio", "555", 666);
+      City secondCity = new City("Ohio", "555", 666);
+
+      // Assert
+      Assert.AreEqual(firstCity, secondCity);
+    }
+
+    [TestMethod]
+    public void Save_SavesToDatabase_CityList()
+    {
+      //Arrange
+      City testCity = new City("Anaheim", "USA", 45);
+      testCity.Save();
+
+      //Act
+      List<City> result = City.GetAll();
+      List<City> testList = new List<City>{testCity};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
     // [TestMethod]
     // public void ItemConstructor_CreatesInstanceOfItem_Item()
     // {
@@ -55,39 +110,9 @@ namespace WorldDatabase.Tests
     //   //Assert
     //   Assert.AreEqual(updatedDescription, result);
     // }
-    //
+
     // [TestMethod]
-    // public void GetAll_ReturnsEmptyList_ItemList()
-    // {
-    //   //Arrange
-    //   List<Item> newList = new List<Item> { };
-    //
-    //   //Act
-    //   List<Item> result = Item.GetAll();
-    //
-    //   //Assert
-    //   CollectionAssert.AreEqual(newList, result);
-    // }
-    //
-    // [TestMethod]
-    // public void GetAll_ReturnsItems_ItemList()
-    // {
-    //   //Arrange
-    //   string description01 = "Walk the dog";
-    //   string description02 = "Wash the dishes";
-    //   Item newItem1 = new Item(description01);
-    //   Item newItem2 = new Item(description02);
-    //   List<Item> newList = new List<Item> { newItem1, newItem2 };
-    //
-    //   //Act
-    //   List<Item> result = Item.GetAll();
-    //
-    //   //Assert
-    //   CollectionAssert.AreEqual(newList, result);
-    // }
-    //
-    // [TestMethod]
-    // public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
+    // public void GetId_CityInstantiateWithAnIdAndGetterReturns_Int()
     // {
     //   //Arrange
     //   string description = "Walk the dog.";

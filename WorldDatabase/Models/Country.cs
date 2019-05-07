@@ -40,7 +40,6 @@ namespace WorldDatabase.Models
         {
           independence = rdr.GetInt16(5);
         }
-
         //int capital = rdr.GetInt32(13);
         int capitalId = 0;
         string capital = "non-existant";

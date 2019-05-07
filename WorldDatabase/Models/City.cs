@@ -7,44 +7,44 @@ namespace WorldDatabase.Models
 {
   public class City
   {
-    public string CityName {get; set;}
+    public string Name {get; set;}
     public string CountryCode {get; set;}
     public int Population {get; set;}
-    public int Id {get; set;}
+    // public int Id {get; set;}
 
-    public City (string cityName, string countryCode, int population, int id)
+    public City (string name, string countryCode, int population)
     {
-      CityName = cityName;
+      Name = name;
       CountryCode = countryCode;
       Population = population;
-      Id = id;
+      // Id = id;
     }
 
     public static List<City> GetAll()
     {
       List<City> allCities = new List<City> {};
-      // MySqlConnection conn = DB.Connection();
-      // conn.Open();
-      // MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      // cmd.CommandText = @"SELECT * FROM city;";
-      // MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-      //
-      // while(rdr.Read())
-      // {
-      //   int id = rdr.GetInt32(0);
-      //   string cityName = rdr.GetString(1);
-      //   string countryCode = rdr.GetString(2);
-      //   int population = rdr.GetInt32(4);
-      //
-      //   City newCity = new City(cityName, countryCode, population, id);
-      //   allCities.Add(newCity);
-      // }
-      // conn.Close();
-      //
-      // if (conn != null)
-      // {
-      //   conn.Dispose();
-      // }
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM city;";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string countryCode = rdr.GetString(2);
+        int population = rdr.GetInt32(4);
+
+        City newCity = new City(name, countryCode, population);
+        allCities.Add(newCity);
+      }
+      conn.Close();
+
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
       return allCities;
     }
 
@@ -76,10 +76,58 @@ namespace WorldDatabase.Models
       var cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"DELETE FROM city";
       cmd.ExecuteNonQuery();
+      conn.Close();
       if (conn != null)
       {
         conn.Dispose();
       }
     }
+
+    public override bool Equals(System.Object otherCity)
+    {
+      if (!(otherCity is City))
+      {
+        return false;
+      }
+      else
+      {
+        City newCity = (City) otherCity;
+        bool nameEqaulity = (this.Name == newCity.Name);
+        return (nameEqaulity);
+      }
+    }
+
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+     conn.Open();
+     var cmd = conn.CreateCommand() as MySqlCommand;
+     cmd.CommandText = @"INSERT INTO `city` (`name`, `countryCode`, `population`) VALUES (@CityName, @CityCountryCode, @CityPopulation);";
+
+     MySqlParameter name = new MySqlParameter();
+     name.ParameterName = "@CityName";
+     name.Value = this.Name;
+
+     MySqlParameter countryCode = new MySqlParameter();
+     countryCode.ParameterName = "@CityCountryCode";
+     countryCode.Value = this.CountryCode;
+
+     MySqlParameter population = new MySqlParameter();
+     population.ParameterName = "@CityPopulation";
+     population.Value = this.Population;
+
+     cmd.Parameters.Add(name);
+     cmd.Parameters.Add(countryCode);
+     cmd.Parameters.Add(population);
+     cmd.ExecuteNonQuery();
+     // more logic will go here in a moment
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
   }
 }
