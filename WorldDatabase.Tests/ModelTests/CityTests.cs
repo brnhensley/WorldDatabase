@@ -105,6 +105,19 @@ namespace WorldDatabase.Tests
       //Assert
       Assert.AreEqual(testCity, foundCity);
     }
+    //This doesnt work yet
+    // [TestMethod]
+    // public void Edit_UpdateCityPopulationInDatabase_int()
+    // {
+    //   int firstPopulation = 10000;
+    //   City lilTown = new City("Hanover", "HNR", firstPopulation);
+    //   lilTown.Save();
+    //   int secondPopulation = 190312442;
+    //
+    //   lilTown.EditCity("Population", secondPopulation);
+    //   int result = City.Find(lilTown.Id).Population;
+    //   Assert.AreEqual(secondPopulation, result);
+    // }
 
     // [TestMethod]
     // public void ItemConstructor_CreatesInstanceOfItem_Item()
